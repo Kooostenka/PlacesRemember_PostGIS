@@ -1,0 +1,8 @@
+body {
+  max-width: 1200px;
+  background: url("/static/geo_app/images/bg.jpg") no-repeat;
+  background-size: cover;
+  margin: 10px auto 30px auto;
+}
+
+

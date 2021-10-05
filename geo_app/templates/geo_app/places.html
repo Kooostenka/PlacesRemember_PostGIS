@@ -1,0 +1,52 @@
+{% extends 'geo_app/base.html' %}
+
+{% block title %}
+    Мои воспоминания
+{% endblock %}
+
+{% block content %}
+    <div class="carousel slide" data-ride="carousel" id="slides">
+        <ul class="carousel-indicators">
+            <li data-target="#slides" data-slide-to="0" class="active"></li>
+            <li data-target="#slides" data-slide-to="1"></li>
+            <li data-target="#slides" data-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/static/geo_app/images/slider1.jpg">
+                {% if not user_places %}
+                    <div class="carousel-caption">
+                        <h3>У вас нет ни одного воспоминания.</h3>
+                        <a href="{% url 'create_place' %}"><button type="button" class="btn btn-outline-light btn-lg">Добавить воспоминание</button></a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="carousel-item">
+                <img src="/static/geo_app/images/slider2.jpg">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/geo_app/images/slider3.jpg">
+            </div>
+        </div>
+    </div>
+    
+    {% if user_places %}
+        <div class="container-fluid">
+            <h1 class="text-center">Воспоминания</h1> 
+            <hr class="my-4">
+            {% for place in user_places %}
+                <div class="row jumbotron">
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+                        <h3>{{ place.name }}</h3>
+                     
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+                        <a href="{% url 'place_detail_url' place.id %}"><button class="btn btn-success btn-lg" type="button">Просмотреть</button></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+

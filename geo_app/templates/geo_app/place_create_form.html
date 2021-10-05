@@ -1,0 +1,50 @@
+{% extends 'geo_app/base.html' %}
+{% load leaflet_tags %}
+{% load crispy_forms_tags %}
+
+{% block scripts %}
+  {% leaflet_js plugins="forms" %}
+  {% leaflet_css plugins="forms" %}
+{% endblock %}
+
+{% block title %}
+  Создать воспоминание
+{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Сохраните ваше любимое место</h5>
+            <form action="{% url 'create_place' %}" method="POST">
+              {% csrf_token %}
+              
+              {% for field in place_form %}
+                {% if field.errors %}
+                  <div class="form-group">
+                      {{ field|as_crispy_field }}
+                  </div>
+                  <div class="alert alert-danger" role="alert">
+                    {{ field.errors }}
+                  </div>
+                {% else %}
+                  <div class="form-group">
+                    {{ field|as_crispy_field }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+
+              <button type="submit" class="btn btn-success">Сохранить</button>
+            </form>
+          </div>
+        </div>
+        
+      </div>
+      <div class="col-6"></div>
+    </div>
+  </div>
+
+{% endblock %}

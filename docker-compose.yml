@@ -1,0 +1,29 @@
+version: '2.1'
+
+services:
+  geo_db:
+    image: postgis/postgis:latest
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+  django:
+    container_name: geo_container
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: bash -c "python /usr/src/Geo_project/manage.py migrate --noinput &&
+             python /usr/src/Geo_project/manage.py initadmin &&
+             python /usr/src/Geo_project/manage.py runserver 0.0.0.0:8000"
+
+    volumes:
+      - .:/usr/src/Django_cinema
+    ports:
+      - 8000:8000
+    depends_on:
+      - geo_db
+
+volumes:
+  pg_data:

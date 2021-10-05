@@ -1,0 +1,33 @@
+{% extends 'geo_app/base.html' %}
+{% load leaflet_tags %}
+
+{% block scripts %}
+  {% leaflet_js %}
+  {% leaflet_css %}
+{% endblock %}
+
+{% block title %}
+  Информация о месте
+{% endblock %}
+
+{% block content %}
+  
+  <div class="card">
+    <h1>{{ place.name }}</h1>
+    <div class="card-img-top">
+      <script type="text/javascript">
+      function mark_location(map, options){
+          var raw_data = '{{ place.location.geojson|escapejs }}';
+          var data = JSON.parse(raw_data);
+          L.geoJSON(data).addTo(map);
+      }
+      </script>
+      {% leaflet_map "gis" callback="window.mark_location" %}
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{ place.comment }}</p>
+    </div>
+  </div>
+
+{% endblock %}
+
